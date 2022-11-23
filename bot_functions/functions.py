@@ -1,3 +1,5 @@
+from vk_api.utils import get_random_id
+
 # Pin message in chat
 def pin_msg(auth, peer_id, conversation_message_id, text):
     auth.method('messages.pin', {'peer_id': peer_id,

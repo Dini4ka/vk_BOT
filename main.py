@@ -2,7 +2,7 @@ from config import *
 import vk_api
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 from bot_functions import *
-from vk_api.utils import get_random_id
+
 
 auth = vk_api.VkApi(token=token)
 longpoll = VkBotLongPoll(auth, group_id=group_id)
@@ -25,7 +25,7 @@ for event in longpoll.listen():
             lego = pin_msg(auth,peer_id, bot_conv_msg_id, text_message)
         try:
             if event.obj['message']['reply_message']['conversation_message_id'] == bot_conv_msg_id:
-                full_name = get_user(event.obj['message']['from_id'])
+                full_name = get_user(auth,event.obj['message']['from_id'])
                 if text_message == '+':
                     plus.append(full_name)
                     edit_msg(auth,peer_id, bot_conv_msg_id, lego, plus, minus)
