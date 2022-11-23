@@ -1,10 +1,14 @@
 from vk_api.utils import get_random_id
 
+
 # Pin message in chat
 def pin_msg(auth, peer_id, conversation_message_id, text):
     auth.method('messages.pin', {'peer_id': peer_id,
                                  'conversation_message_id': conversation_message_id})
-    new_text = text.removesuffix('bot_help')
+    # For python 3.9+
+    # new_text = text.removesuffix('bot_help')
+    # For python less than 3.9
+    new_text = text[:-8]
     edit_text = new_text + '<br>_________________________<br>' \
                            '_________________________<br>' \
                            '_________________________<br>' \
@@ -27,7 +31,7 @@ def get_user(auth, user_id):
 
 
 # Redact the message
-def edit_msg(auth, peer_id, conversation_message_id, lego, plus, minus,plus_minus):
+def edit_msg(auth, peer_id, conversation_message_id, lego, plus, minus, plus_minus):
     plus_str = ''
     for positive in plus:
         plus_str += str(positive) + ' +' '<br>'
