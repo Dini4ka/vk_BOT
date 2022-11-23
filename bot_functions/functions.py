@@ -25,14 +25,17 @@ def get_user(auth, user_id):
 
 
 # Redact the message
-def edit_msg(auth, peer_id, conversation_message_id, lego, plus, minus):
+def edit_msg(auth, peer_id, conversation_message_id, lego, plus, minus,plus_minus):
     plus_str = ''
     for positive in plus:
         plus_str += str(positive) + ' +' '<br>'
     minus_str = ''
     for negative in minus:
         minus_str += str(negative) + ' -' + '<br>'
-    message = str(lego[0]) + lego[1] + plus_str + lego[2] + lego[3] + '<br>' + minus_str
+    neutral_str = ''
+    for neutral in plus_minus:
+        neutral_str += str(neutral) + ' +s' + '<br>'
+    message = str(lego[0]) + lego[1] + plus_str + lego[2] + lego[3] + '<br>' + minus_str + '</br>' + neutral_str
     auth.method('messages.edit', {'peer_id': peer_id,
                                   'conversation_message_id': conversation_message_id,
                                   'message': message})

@@ -12,7 +12,7 @@ TEXT = None
 # Peoples answered in pinned message (only '+' or '-')
 plus = []
 minus = []
-
+plus_minus = []
 # Listening messages
 for event in longpoll.listen():
     # If message was from VK chat and not empty
@@ -24,6 +24,7 @@ for event in longpoll.listen():
         if 'bot_help' in text_message:
             plus = []
             minus = []
+            plus_minus =[]
             # Getting inclusive message id in chat
             conv_msg_id = event.obj['message']['conversation_message_id']
             peer_id = event.obj['message']['peer_id']
@@ -44,14 +45,25 @@ for event in longpoll.listen():
                 if text_message == '+':
                     if full_name in minus:
                         minus.remove(full_name)
+                    if full_name in plus_minus:
+                        plus_minus.remove(full_name)
                     plus.append(full_name)
-                    edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus)
+                    edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus,plus_minus)
                 # if answer was '-'
                 if text_message == '-':
                     if full_name in plus:
                         plus.remove(full_name)
+                    if full_name in plus_minus:
+                        plus_minus.remove(full_name)
                     minus.append(full_name)
-                    edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus)
+                    edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus,plus_minus)
+                if text_message == '+-' or text_message == '-+':
+                    if full_name in plus:
+                        plus.remove(full_name)
+                    if full_name in minus:
+                        minus.remove(full_name)
+                    plus_minus.append(full_name)
+                    edit_msg(auth,peer_id,bot_conv_msg_id,lego,plus,minus,plus_minus)
             # if message isn't a reply to a bot message
         except Exception as ex:
             print(ex.args)
