@@ -7,13 +7,15 @@ def pin_msg(auth, peer_id, conversation_message_id, text):
     new_text = text.removesuffix('bot_help')
     edit_text = new_text + '<br>_________________________<br>' \
                            '_________________________<br>' \
+                           '_________________________<br>' \
                            'СПАСИБО ЗА ОБРАТНУЮ СВЯЗЬ'
     auth.method('messages.edit', {'peer_id': peer_id,
                                   'conversation_message_id': conversation_message_id,
                                   'message': edit_text})
     lego = [new_text,
-            '<br>_______________________________<br>',
-            '<br>_______________________________<br>',
+            '<br>_________________________<br>',
+            '<br>_________________________<br>',
+            '<br>_________________________<br>',
             'СПАСИБО ЗА ОБРАТНУЮ СВЯЗЬ']
     return lego
 
@@ -34,8 +36,8 @@ def edit_msg(auth, peer_id, conversation_message_id, lego, plus, minus,plus_minu
         minus_str += str(negative) + ' -' + '<br>'
     neutral_str = ''
     for neutral in plus_minus:
-        neutral_str += str(neutral) + ' +s' + '<br>'
-    message = str(lego[0]) + lego[1] + plus_str + lego[2] + lego[3] + '<br>' + minus_str + '</br>' + neutral_str
+        neutral_str += str(neutral) + ' +-' + '<br>'
+    message = str(lego[0]) + lego[1] + plus_str + lego[2] + neutral_str + lego[3] + lego[4] + '<br>' + minus_str
     auth.method('messages.edit', {'peer_id': peer_id,
                                   'conversation_message_id': conversation_message_id,
                                   'message': message})
