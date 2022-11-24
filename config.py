@@ -1,6 +1,3 @@
-token = 'vk1.a.SNSbE_Da8_EcoQl9VbfyAGkMBuzvVHBYq47WblKBWllYqZRlqeVkakEyUoRJnlh3lODD00fQOwrfFctDuRi1_m3GhcdPnPyZKB7sHQWDt5A6IK0Z-I3JozTEbzZTcCFhQaCU1kItgkusNxpWV_NeNScWFHh77yFMghQ5Xmf-DQBrh-dm6lSajS0IflHWm0ZTBXbRr6lBvWTS4pH9p9kkCw'
-group_id = 191394468
-admin_id = 523017940
-#token = 'vk1.a.tyW-X-NLM79a1_spreFLWtCU6re90-WkrtnTnuvZpF_sXDtT_87KULd467m03Y45x54iMvhV0yx7CKYLVqZBcDCK-XsHTekgDjU7BE5RE426cLoC0wffxkGEj0JwaT7XwdvhG6JdZA_5ElQjLV0yX9PbLEUYQNMKq9fXZf8pyyb2_ZXvH2Xa4yFzaRDghPYYWSvaJrrUCL5YCHhlndSqaw'
-#group_id = 217358292
-#admin_id = 68338
+token = 'your bot token'
+group_id = 12345 # your group_id
+admin_id = 1234456 # admin of chat (only one person now)
