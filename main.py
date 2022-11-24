@@ -15,13 +15,13 @@ minus = []
 plus_minus = []
 # Listening messages
 for event in longpoll.listen():
+    print(event)
     # If message was from VK chat and not empty
     if event.type == VkBotEventType.MESSAGE_NEW and event.from_chat and event.message.get('text') != '':
         # Getting message's text
         text_message = event.message.get('text')
-        print(event)
         # If message has a flag 'bot_help', we should reset plus and minus
-        if 'bot_help' in text_message:
+        if 'bot_help' in text_message and event.obj['message']['from_id'] == admin_id:
             plus = []
             minus = []
             plus_minus =[]
@@ -42,7 +42,9 @@ for event in longpoll.listen():
                 # Getting fullname of sender
                 full_name = get_user(auth, event.obj['message']['from_id'])
                 # if answer was '+'
-                if text_message == '+':
+                if '+' in text_message and '+-' not in text_message and '-+' not in text_message:
+                    if full_name in plus:
+                        plus.remove(full_name)
                     if full_name in minus:
                         minus.remove(full_name)
                     if full_name in plus_minus:
@@ -50,18 +52,23 @@ for event in longpoll.listen():
                     plus.append(full_name)
                     edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus,plus_minus)
                 # if answer was '-'
-                if text_message == '-':
+                if '-' in text_message and '+-' not in text_message and '-+' not in text_message:
+                    if full_name in minus:
+                        minus.remove(full_name)
                     if full_name in plus:
                         plus.remove(full_name)
                     if full_name in plus_minus:
                         plus_minus.remove(full_name)
                     minus.append(full_name)
                     edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus,plus_minus)
-                if text_message == '+-' or text_message == '-+':
+                # if answer was '+-' or '-+'
+                if '+-' in text_message or '-+' in text_message:
                     if full_name in plus:
                         plus.remove(full_name)
                     if full_name in minus:
                         minus.remove(full_name)
+                    if full_name in plus_minus:
+                        plus_minus.remove(full_name)
                     plus_minus.append(full_name)
                     edit_msg(auth,peer_id,bot_conv_msg_id,lego,plus,minus,plus_minus)
             # if message isn't a reply to a bot message
