@@ -12,7 +12,7 @@ def pin_msg(auth, peer_id, conversation_message_id, text):
     edit_text = new_text + '<br>_________________________<br>' \
                            '_________________________<br>' \
                            '_________________________<br>' \
-                           'СПАСИБО ЗА ОБРАТНУЮ СВЯЗЬ'
+
     auth.method('messages.edit', {'peer_id': peer_id,
                                   'conversation_message_id': conversation_message_id,
                                   'message': edit_text})
@@ -20,7 +20,7 @@ def pin_msg(auth, peer_id, conversation_message_id, text):
             '<br>_________________________<br>',
             '<br>_________________________<br>',
             '<br>_________________________<br>',
-            'СПАСИБО ЗА ОБРАТНУЮ СВЯЗЬ']
+    ]
     return lego
 
 
@@ -32,16 +32,27 @@ def get_user(auth, user_id):
 
 # Redact the message
 def edit_msg(auth, peer_id, conversation_message_id, lego, plus, minus, plus_minus):
+
+    # 'plus' messages
     plus_str = ''
+    plus_int = str(len(plus)) + ' +'
     for positive in plus:
         plus_str += str(positive) + ' +' '<br>'
+
+    # 'minus' messages
     minus_str = ''
+    minus_int = str(len(minus)) + ' -'
     for negative in minus:
         minus_str += str(negative) + ' -' + '<br>'
+
+    # 'plus-minus' messages
     neutral_str = ''
+    plus_minus_int = str(len(plus_minus)) + ' +-'
     for neutral in plus_minus:
         neutral_str += str(neutral) + ' +-' + '<br>'
-    message = str(lego[0]) + lego[1] + plus_str + lego[2] + neutral_str + lego[3] + lego[4] + '<br>' + minus_str
+    message = str(lego[0]) + lego[1] + '<br>' + plus_int + '<br><br>' + plus_str + '<br>' + plus_int + '<br>' \
+                           + lego[2] + '<br>' + plus_minus_int + '<br><br>' + neutral_str + '<br>' + plus_minus_int + '<br>' \
+                           + lego[3] + '<br>' + minus_int + '<br><br>' + minus_str + '<br>' + minus_int + '<br>'
     auth.method('messages.edit', {'peer_id': peer_id,
                                   'conversation_message_id': conversation_message_id,
                                   'message': message})
@@ -52,7 +63,7 @@ def write_msg(auth, sender, message):
     auth.method('messages.send', {'chat_id': sender, 'message': message, 'random_id': get_random_id()})
 
 
-# Get user's info using he's conversation_message_if
+# Get user's info using he's conversation_message_id
 def getByConversationMessageId(auth, peer_id, conversation_message_ids, group_id):
     return auth.method('messages.getByConversationMessageId', {'peer_id': peer_id,
                                                                'conversation_message_ids': conversation_message_ids,

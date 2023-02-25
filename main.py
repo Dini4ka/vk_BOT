@@ -30,7 +30,7 @@ while True:
                 if 'bot_help' in text_message and event.obj['message']['from_id'] == admin_id:
                     plus = []
                     minus = []
-                    plus_minus =[]
+                    plus_minus = []
                     # Getting inclusive message id in chat
                     conv_msg_id = event.obj['message']['conversation_message_id']
                     peer_id = event.obj['message']['peer_id']
@@ -41,9 +41,57 @@ while True:
                     # Pin message which duplicated
                     bot_conv_msg_id = conv_msg_id + 1
                     lego = pin_msg(auth, peer_id, bot_conv_msg_id, text_message)
+
                 if 'bot_edit' in text_message and event.obj['message'][
-                    'from_id'] == admin_id and bot_conv_msg_id != None:
+                    'from_id'] == admin_id and bot_conv_msg_id is not None:
                     lego[0] = text_message[:-8]
+                    edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus, plus_minus)
+
+                if 'bot_add+' in text_message and 'bot_add+-' not in text_message and event.obj['message'][
+                    'from_id'] == admin_id and bot_conv_msg_id is not None:
+                    name_need_to_add = (text_message.replace('bot_add+ ', ''))
+                    if name_need_to_add in plus:
+                        plus.remove(name_need_to_add)
+                    if name_need_to_add in minus:
+                        minus.remove(name_need_to_add)
+                    if name_need_to_add in plus_minus:
+                        plus_minus.remove(name_need_to_add)
+                    plus.append(name_need_to_add)
+                    edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus, plus_minus)
+
+                if 'bot_add+-' in text_message and event.obj['message'][
+                    'from_id'] == admin_id and bot_conv_msg_id is not None:
+                    name_need_to_add = (text_message.replace('bot_add+- ', ''))
+                    if name_need_to_add in plus:
+                        plus.remove(name_need_to_add)
+                    if name_need_to_add in minus:
+                        minus.remove(name_need_to_add)
+                    if name_need_to_add in plus_minus:
+                        plus_minus.remove(name_need_to_add)
+                    plus_minus.append(name_need_to_add)
+                    edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus, plus_minus)
+
+                if 'bot_add-' in text_message and event.obj['message'][
+                    'from_id'] == admin_id and bot_conv_msg_id is not None:
+                    name_need_to_add = (text_message.replace('bot_add- ', ''))
+                    if name_need_to_add in plus:
+                        plus.remove(name_need_to_add)
+                    if name_need_to_add in minus:
+                        minus.remove(name_need_to_add)
+                    if name_need_to_add in plus_minus:
+                        plus_minus.remove(name_need_to_add)
+                    minus.append(name_need_to_add)
+                    edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus, plus_minus)
+
+                if 'delete' in text_message and event.obj['message'][
+                    'from_id'] == admin_id and bot_conv_msg_id is not None:
+                    name_need_to_add = (text_message.replace('delete ', ''))
+                    if name_need_to_add in plus:
+                        plus.remove(name_need_to_add)
+                    if name_need_to_add in minus:
+                        minus.remove(name_need_to_add)
+                    if name_need_to_add in plus_minus:
+                        plus_minus.remove(name_need_to_add)
                     edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus, plus_minus)
                 # Processing another messages
                 try:
@@ -60,7 +108,7 @@ while True:
                             if full_name in plus_minus:
                                 plus_minus.remove(full_name)
                             plus.append(full_name)
-                            edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus,plus_minus)
+                            edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus, plus_minus)
                         # if answer was '-'
                         if '-' in text_message and '+-' not in text_message and '-+' not in text_message:
                             if full_name in minus:
@@ -70,7 +118,7 @@ while True:
                             if full_name in plus_minus:
                                 plus_minus.remove(full_name)
                             minus.append(full_name)
-                            edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus,plus_minus)
+                            edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus, plus_minus)
                         # if answer was '+-' or '-+'
                         if '+-' in text_message or '-+' in text_message:
                             if full_name in plus:
@@ -80,7 +128,7 @@ while True:
                             if full_name in plus_minus:
                                 plus_minus.remove(full_name)
                             plus_minus.append(full_name)
-                            edit_msg(auth,peer_id,bot_conv_msg_id,lego,plus,minus,plus_minus)
+                            edit_msg(auth, peer_id, bot_conv_msg_id, lego, plus, minus, plus_minus)
                     # if message isn't a reply to a bot message
                 except Exception as ex:
                     print(ex.args)
